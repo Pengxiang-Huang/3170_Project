@@ -112,9 +112,12 @@
         </div>
       </section>
     </div>
-    <div class="sendbtn">
+    <div class="sendbtn" v-if="!isposting">
       <button class="btn"
               @click="submit">POST</button>
+    </div>
+    <div class="sendbtn" v-else>
+      <vue-mzc-loading title="Wait for post..."> </vue-mzc-loading>
     </div>
     <div class="goback">
       <button class="btnback"
@@ -151,6 +154,7 @@ export default {
     subpartition: '',
     codeResult: '// code result will be shown here',
     isloading: false,
+    isposting: false,
     blogtext: '',
     title: '',
     username: '',
@@ -242,6 +246,10 @@ export default {
     submit () {
       // console.log(sessionStorage.getItem('link'))
       this.link = sessionStorage.getItem('link')
+      this.isposting = true
+      console.log(this.blogtext)
+      var el = document.createElement('div')
+      el.innerHTML = this.blogtext
       if (this.title === '') {
         this.$message.error('Please conclude your title!')
       } else if (this.partition === '') {
@@ -263,7 +271,8 @@ export default {
           content: this.blogtext,
           author_name: this.username,
           lang: this.Language,
-          files_url: this.link
+          files_url: this.link,
+          StringText: el.innerText
         }
         axios({
           method: 'post',
@@ -274,6 +283,7 @@ export default {
             this.$message.error('can not found the corresponding subpartition, please try again!')
           } else {
             this.$message.success('Post Successfully!')
+            this.isposting = false
             this.$router.go(-1)
             console.log(response)
           }
