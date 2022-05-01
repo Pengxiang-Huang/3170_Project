@@ -31,9 +31,9 @@
                text-color="#ffffff"
                active-text-color="#d3c90a">
         <el-menu-item index="Main"
-                      class="menu-item">主页面</el-menu-item>
+                      class="menu-item">Main</el-menu-item>
         <el-menu-item index="Partitions"
-                      class="menu-item">分区</el-menu-item>
+                      class="menu-item">Partition</el-menu-item>
         <h3 class="mytext">cuhksz OVerflow</h3>
         <el-button class="searchIcon"
                    icon="el-icon-search"
@@ -94,7 +94,7 @@
         <el-tabs :value="activeTab" @tab-click="handleClick">
           <el-tab-pane></el-tab-pane>
           <el-tab-pane name="first">
-            <button slot="label" class="fontClass btn-1"><span>热点话题</span></button>
+            <button slot="label" class="fontClass btn-1"><span>Hot Blogs</span></button>
             <div class="blog animate__animated animate__slideInUp"
                  v-for="(item,index) in hotBlogs"
                  :key="index+'_hot'">
@@ -136,7 +136,7 @@
             <div style="height: 200px;"></div> <!-- Used to leave some blank -->
           </el-tab-pane>
           <el-tab-pane name="second">
-            <button slot="label" class="fontClass btn-2"><span>关注话题</span></button>
+            <button slot="label" class="fontClass btn-2"><span>Followed Blogs</span></button>
             <div class="blog animate__animated animate__slideInUp"
                  v-for="(item,index) in followedBlogs"
                  :key="index+'_followedBlogs'">
@@ -178,7 +178,7 @@
             <div style="height: 200px;"></div> <!-- Used to leave some blank -->
           </el-tab-pane>
           <el-tab-pane name="third">
-            <button slot="label" class="fontClass btn-3"><span>关注分区</span></button>
+            <button slot="label" class="fontClass btn-3"><span>Followed Partitions</span></button>
             <div class="bk-btn" v-show="p_type === false" src="../assets/back.png" @click="back"><div class="bk-btn-triangle"></div><div class="bk-btn-bar"></div></div>
             <div v-if="p_type"
                  class="partition animate__animated animate__slideInUp"
@@ -235,7 +235,7 @@
             <div style="height: 200px;"></div> <!-- Used to leave some blank -->
           </el-tab-pane>
           <el-tab-pane name="fourth">
-            <button slot="label" class="fontClass btn-4"><span>我的提问</span></button>
+            <button slot="label" class="fontClass btn-4"><span>My Blogs</span></button>
             <div class="blog animate__animated animate__slideInUp"
                  v-for="(item,index) in myBlogs"
                  :key="index+'_my'">
@@ -277,7 +277,7 @@
             <div style="height: 200px;"></div> <!-- Used to leave some blank -->
           </el-tab-pane>
           <el-tab-pane name="fifth">
-            <button slot="label" class="fontClass btn-5"><span>未解决的问题</span></button>
+            <button slot="label" class="fontClass btn-5"><span>Unsolved Blogs</span></button>
             <div class="blog animate__animated animate__slideInUp"
                  v-for="(item,index) in unAnsweredBlogs"
                  :key="index+'_unAnswer'">
@@ -936,7 +936,7 @@ export default {
         this.activeTab = 'first'
       }
       this.srPage.push({
-        label: '搜索结果',
+        label: 'Search Results',
         name: 'sixth'
       })
       let sendData = {
@@ -1171,7 +1171,7 @@ export default {
   z-index: -9999;
 }
 .menu-item {
-  font-family: 'myfont2' !important;
+  font-family: 'myfont' !important;
   margin-left: 2% !important;
 }
 .searchBox {
@@ -1282,7 +1282,7 @@ export default {
   overflow: auto;
 }
 .fontClass {
-  font-family: 'myfont2';
+  font-family: 'myfont';
   width: 100px;
   height: 40px;
   color: #fff;
