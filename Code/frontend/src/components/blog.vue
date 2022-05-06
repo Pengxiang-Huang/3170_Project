@@ -86,6 +86,7 @@
       <div v-if="index === 'Main'" class="tab">
         <div id="leftBox"></div>
         <div id="rightBox"></div>
+        <div id="deletion" class="fa fa-trash"  @click="deleteblog" v-show="ismyblog"></div>
         <div class="bk-btn" src="../assets/back.png" @click="backToMain" ><div class="bk-btn-triangle"></div><div class="bk-btn-bar"></div></div>
         <div style="padding: 0 50px;" class="animate__animated animate__zoomIn">
           <el-tooltip class="item" effect="dark" :content="blog.author_name" placement="left">
@@ -325,7 +326,8 @@ export default {
       },
       answerText: '',
       father_answer_id: '',
-      value: 0
+      value: 0,
+      ismyblog: true
     }
   },
   computed: {
@@ -404,6 +406,9 @@ export default {
       this.blog = response[2].data
       this.answers = response[3].data
       console.log(this.answers)
+      if (this.blog.author_name !== this.username) {
+        this.ismyblog = false
+      }
     })
   },
   mounted: function () {
@@ -792,6 +797,10 @@ export default {
       setTimeout(function () {
         document.getElementById('textcode').style.display = 'none'
       }, 800)
+    },
+    // delete the blogs if the blog belongs to username
+    deleteblog () {
+      console.log('hello')
     }
   }
 }
@@ -1288,6 +1297,13 @@ export default {
 @-o-keyframes fadeout {
   from {opacity: 1;}
   to {opacity: 0;}
+}
+#deletion{
+  top:4%;
+  right:24%;
+  font-size: 24px;
+  position: absolute;
+  cursor: pointer;
 }
 #frame {
   position: absolute;
