@@ -800,7 +800,32 @@ export default {
     },
     // delete the blogs if the blog belongs to username
     deleteblog () {
-      console.log('hello')
+      console.log(this.blog.id)
+      let senddata = {
+        id: this.blog.id
+      }
+      console.log('delete')
+      axios({
+        method: 'POST',
+        url: 'http://175.178.34.84/api/delete',
+        data: Qs.stringify(senddata)
+      }).then((response) => {
+        if (response.data.ok) {
+          console.log('delete success')
+          this.$message.success('Delete Success!')
+          this.$router.push({
+            name: 'home',
+            params: {
+              username: this.username,
+              inSearch: this.inSearch,
+              searchCondition: this.searchCondition,
+              searchContent: this.searchContent
+            }
+          })
+        } else {
+          this.$message.error('Delete failed! Please try again!')
+        }
+      })
     }
   }
 }
@@ -1299,6 +1324,7 @@ export default {
   to {opacity: 0;}
 }
 #deletion{
+  z-index: 9999;
   top:4%;
   right:24%;
   font-size: 24px;
