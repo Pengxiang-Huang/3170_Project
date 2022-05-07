@@ -1172,6 +1172,7 @@ export default {
 }
 .menu-item {
   font-family: 'myfont' !important;
+  font-size: 1.2em !important;
   margin-left: 2% !important;
 }
 .searchBox {
@@ -1282,7 +1283,6 @@ export default {
   overflow: auto;
 }
 .fontClass {
-  font-family: 'myfont';
   width: 100px;
   height: 40px;
   color: #fff;
@@ -1590,6 +1590,7 @@ export default {
   border-right: 3px solid gray;
   border-radius:30px;
   margin-left: 30px;
+  margin-right: 30px;
   padding: 0 50px;
   font-size: 20px;
   line-height: 30px;

@@ -279,11 +279,11 @@ export default {
           url: 'http://175.178.34.84/SetQuestion',
           data: Qs.stringify(senddata)
         }).then((response) => {
+          this.isposting = false
           if (response.data.ok === 0) {
             this.$message.error('can not found the corresponding subpartition, please try again!')
           } else {
             this.$message.success('Post Successfully!')
-            this.isposting = false
             this.$router.go(-1)
             console.log(response)
           }
