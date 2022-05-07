@@ -37,10 +37,11 @@
         text-color="#ffffff"
         active-text-color="#d3c90a"
       >
-        <el-menu-item index="Main" class="menu-item">主页面</el-menu-item>
-        <el-menu-item index="Partitions" class="menu-item">分区</el-menu-item>
+        <el-menu-item index="Main" class="menu-item">Main</el-menu-item>
+        <el-menu-item index="Partitions" class="menu-item">Partition</el-menu-item>
+        <h3 class="mytext">cuhksz OVerflow</h3>
         <el-button class="searchIcon" icon="el-icon-search" @click="search" circle></el-button>
-        <el-button class="postIcon" @click="skipToPost" round>Post</el-button>
+        <button class="postIcon" @click="skipToPost" ><span>Click!</span><span>Post Blog</span></button>
         <el-dropdown trigger="click" placement="bottom" @command="selectUserFunctions" class="userIcon">
           <el-avatar v-if="profileURL" :src="profileURL"></el-avatar>
           <el-avatar v-else icon="el-icon-user-solid"></el-avatar>
@@ -108,7 +109,7 @@
           </button>
           <button v-else class="like" @click="like($event,blog,0,false)">
             <img src="../assets/like.png" />
-            <span style="color: #bfbfbf;">{{ blog.like }}</span>
+            <span style="color: #8a8a8a;">{{ blog.like }}</span>
           </button>
           <button v-if="blog.isfollowed" class="follow" @click="follow($event,blog,false)" style="background-color: #ffcc00;">
             <img src="../assets/follow.png" />
@@ -116,7 +117,7 @@
           </button>
           <button v-else class="follow" @click="follow($event,blog,false)">
             <img src="../assets/follow.png" />
-            <span style="color: #bfbfbf;">{{ blog.follow }}</span>
+            <span style="color: #8a8a8a;">{{ blog.follow }}</span>
           </button>
           <div class="noclick_icon" @click="answer(blog)" style="cursor: pointer;">
             <i class="el-icon-chat-dot-square"></i>
@@ -233,7 +234,7 @@
           </button>
           <button v-else class="like" @click="like($event,item,0,true)">
             <img src="../assets/like.png" />
-            <span style="color: #bfbfbf;">{{ item.like }}</span>
+            <span style="color: #8a8a8a;">{{ item.like }}</span>
           </button>
           <button v-if="item.isfollowed" class="follow" @click="follow($event,item,true)">
             <img src="../assets/follow.png" />
@@ -241,7 +242,7 @@
           </button>
           <button v-else class="follow" @click="follow($event,item,true)">
             <img src="../assets/follow.png" />
-            <span style="color: #bfbfbf;">{{ item.follow }}</span>
+            <span style="color: #8a8a8a;">{{ item.follow }}</span>
           </button>
           <div class="noclick_icon">
             <i class="el-icon-collection-tag"></i>
@@ -988,7 +989,8 @@ export default {
   z-index: -9999;
 }
 .menu-item {
-  margin-left: 50px !important;
+  font-family: 'myfont' !important;
+  margin-left: 2% !important;
 }
 .searchBox {
   position: fixed;
@@ -1007,13 +1009,70 @@ export default {
   top: 10px;
   right: 27%;
 }
+.mytext{
+  position: relative;
+  font-family: 'myfont';
+  color: white;
+  left: 1%;
+}
 .postIcon {
   position: fixed;
   top: 10px;
-  right: 15%;
-  width: 100px;
-  height: 40px;
+  right: 23%;
+  width: 0;
+  height: 0;
   font-size: 18px;
+  -webkit-perspective: 230px;
+  perspective: 230px;
+  border:none;
+  box-shadow: none;
+  background-color: rgb(32, 129, 181);
+  cursor: pointer;
+  font-family: 'myfont';
+}
+.postIcon span {
+  background: rgb(0,172,238);
+  background: linear-gradient(0deg, rgba(0,172,238,1) 0%, rgba(2,126,251,1) 100%);
+  display: block;
+  position: absolute;
+  width: 130px;
+  height: 40px;
+  border-radius: 5px;
+  margin:0;
+  line-height: 40px;
+  padding: auto 0;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-transition: all .3s;
+  transition: all .3s;
+}
+.postIcon span:nth-child(1) {
+  -webkit-transform: rotateX(90deg);
+  -moz-transform: rotateX(90deg);
+  transform: rotateX(90deg);
+  -webkit-transform-origin: 50% 50% -20px;
+  -moz-transform-origin: 50% 50% -20px;
+  transform-origin: 50% 50% -20px;
+}
+.postIcon span:nth-child(2) {
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+  -webkit-transform-origin: 50% 50% -20px;
+  -moz-transform-origin: 50% 50% -20px;
+  transform-origin: 50% 50% -20px;
+}
+.postIcon:hover span:nth-child(1) {
+  -webkit-transform: rotateX(0deg);
+  -moz-transform: rotateX(0deg);
+  transform: rotateX(0deg);
+}
+.postIcon:hover span:nth-child(2) {
+  color: transparent;
+  -webkit-transform: rotateX(-90deg);
+  -moz-transform: rotateX(-90deg);
+  transform: rotateX(-90deg);
 }
 .userIcon {
   position: fixed;
