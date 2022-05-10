@@ -128,9 +128,6 @@ CREATE TABLE `Our_project_blog_answers` (
 ) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb3;
 -- Dumping data for table `Our_project_blog_answers`
 
-LOCK TABLES `Our_project_blog_answers` WRITE;
-INSERT INTO `Our_project_blog_answers` VALUES (1,1,NULL,'just try filling the data base name with the schema name. Then write the host with your server IP, the host as the user name of database on server  ',NULL,NULL,'Markdown',0000000007,5,NULL),(2,1,1,'Thank You!! I will try',NULL,NULL,'Markdown',0000000001,1,NULL),(3,4,NULL,'Mark一下，有答案了踢一下我',NULL,NULL,'Markdown',0000000000,2,NULL),(4,5,NULL,'亲测10GB也是没问题的',NULL,NULL,'Markdown',0000000003,1,NULL),(5,1,NULL,'你可以试试把Django升级一下',NULL,NULL,'Markdown',0000000000,6,NULL),(6,1,5,'请问要升到哪个版本比较合适呢？',NULL,NULL,'Markdown',0000000000,1,NULL),(7,1,NULL,'我也遇到了相同的问题，我是想连接服务器上的Django，但总是连不上，后来发现是shcema name输错了...','setting:{\\n    host:127.0.0.1,\\n    password:********,\\n    database: 4001_project,\\n} ','Python','Markdown',0000000003,8,NULL),(8,1,2,'Never mind~',NULL,NULL,'Markdown',0000000000,5,NULL),(9,1,6,'我是2.0.0. 你可以用pip装一下',NULL,NULL,'Markdown',0000000005,6,NULL),(10,1,5,'但是我升级之后它还是报的一样的错',NULL,NULL,'Markdown',0000000000,10,NULL);
-UNLOCK TABLES;
 
 
 -- Table structure for table `Our_project_file`
@@ -150,11 +147,6 @@ CREATE TABLE `Our_project_file` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb3;
 
 -- Dumping data for table `Our_project_file`
-
-LOCK TABLES `Our_project_file` WRITE;
-INSERT INTO `Our_project_file` VALUES (1,'http://175.178.34.84/fs/user1_settings.py',1,NULL,NULL),(2,'http://175.178.34.84/fs/4001_DB.sql',NULL,7,NULL);
-UNLOCK TABLES;
-
 
 
 -- Table structure for table `Our_project_picture`
