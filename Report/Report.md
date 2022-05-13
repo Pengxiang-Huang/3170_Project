@@ -2,6 +2,14 @@
 
 [TOC]
 
+
+
+## Abstract
+
+A practical and robust onlie forum for programmer is of great great significance and necessity for CUHKSZ programmers. In this report, We present our design and implementation for the online forum database system. Starting from motivation, we continue to discuss the database structure, queries implementation. Database and GUI implentation will then be exhibited. Last, the data mining technique is utlized.
+
+Index Terms—forum, database, E-R diagram, SQL, data mining, search engine
+
 ## Background & Introduction
 
 ​	Our group observe that many student-programmers from CUHKSZ may encounter many familiar programming questions in their project or assignment. Their solutions mainly include: searching online, emailing TAs or professors, uploading questions in WeChat group, or assigning an office hour. Searching online sometimes may not be an efficient way, because the blog or some guidance information may not directly answer the assignment question. Even worse, programmers need to spend much time on filtering the huge amount of information and it becomes hard for them to get answers when the homework question is not relevant to the results on website. Uploading questions on WeChat group could get the detailed guidance and answer. But the new WeChat group will be created every semester for other students who may encounter the same problems. The connection between students already taken this course with the students taking this course right now is broken in this way. Raising questions in office hour is not convenient for programmers to solve their question immediately since they need to make an appointment and wait until that day comes. Therefore, our group would like to take the first step to change the current situation, to provide a online Q&A platform with the support of online forum database.
@@ -176,9 +184,9 @@ But after we introduce the B-Tree index, the query will take advantage of the in
 
 ​	For the convience of database management among group members, instead of building up the database system on one team member's personal computer, we choose to purchase a remote cloud server and configure the mysql database for project usage. 
 
-​	We purchase a Tencent Cloud Server, whcih is 
+​	We purchase a Tencent Cloud Server, whcih is deployed in Guangzhou using MySQL 8.0 version. The configuration of the database is one CPU core with 1000MB memory and 25GB storage.
 
-​	Database can be connected via MySql workbench with the below information. 
+​	Database can be connected via MySql workbench with the below information.
 
 ​	The database implementation is based on mysql and python, as introduced above. The frontend webpage deisgn is based on Vue frameworkd. Also, we use nigix to mount and agent our webserver, which provide a domain name http://www.cuhksz-stackoverflow.cn/. It is more convenient for normal user to register and check our webpage without building the program in their local computers. 
 

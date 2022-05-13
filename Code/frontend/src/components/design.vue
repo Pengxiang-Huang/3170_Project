@@ -3,7 +3,7 @@
     <div class="profile-card">
       <header>
         <h1>Welcome to our community!</h1>
-        <h2>created by CSC4001 group</h2>
+        <h2>designed for CUHKSZ Programmers</h2>
       </header>
       <div class="profile-bio">
         <p>
