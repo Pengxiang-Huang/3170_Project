@@ -170,17 +170,130 @@ Before we add index to the table, when we want to get the id of a user with spec
 
 But after we introduce the B-Tree index, the query will take advantage of the index, and the number of rows to be scanned it greatly reduced.
 
-##  Implementation
+##  Database System Implementation
+
+### Database Instrance Deployment
+
+​	For the convience of database management among group members, instead of building up the database system on one team member's personal computer, we choose to purchase a remote cloud server and configure the mysql database for project usage. 
+
+​	We purchase a Tencent Cloud Server, whcih is 
+
+​	Database can be connected via MySql workbench with the below information. 
+
+​	The database implementation is based on mysql and python, as introduced above. The frontend webpage deisgn is based on Vue frameworkd. Also, we use nigix to mount and agent our webserver, which provide a domain name http://www.cuhksz-stackoverflow.cn/. It is more convenient for normal user to register and check our webpage without building the program in their local computers. 
 
 ### Data generation
 
+To better test the function of the database, our group also populated our database with an abundant amount of real data. As the question blogs in forum is the major data information, we collect those data from two different method. One is from the developer perspective, the other is from the  real user perspective. 
+
+For the developer, our group member collect the data from many source. We collect the questions from wechat group, other forums, and websites and write them into blog. The work is time consuming since we need to write and generate the data all by hand. And we also run a simple web crawl to get some question blog from the website stack-overflow, and use those information to generate a blog automatically. 
+
+To make our database more relevant and friendy to real user, we also collect the information from other user. Before we build the completed program, we let some user register the web account and post their questions that encountered recently. Those users will generate data that is more specific to their course project which is meet the requirment of our goal of this forum. 
+
 ### Graphic User Interface Design
+
+In this part, the graphic User Interface of online forum will be introduced. As mentioned, the system is implemented based on Vue framwork which provide embedded html, css and javascript. Since this framwork is suitable for building a quick and agile website, the style of the system is simple and clear. The main color style of our webpage is baby blue with many corlorful button embedded. The whole frontend is pretty user-friend and wisely organized. there are 5 modules totally in our system. Here is the briefly introduction of those basic components with screenshots. 
+
+1. Login & Register
+
+<img src="pic/Login.png" alt="Login" style="zoom:50%;" />
+
+This module is used for collect the user information and store the information in database server. Also, when user login to our webpage, the query of retrieve the corresponding user name and password to match the input of user will be triggered. Hence, based on this module, the user will be required to do the authentication with his own username.
+
+2. User Home
+
+This module is the main page for user to execute serval operations on our webpage. The webpage will show the catalog for user to see the servel blogs. For instance, there are 5 catalog contains "hot blogs", "my blogs", "unsolved blogs" and so on. Those catalof show different orders of all blogs in our database. This page also include many buttons for user to jump to anthor operations. 
+
+<img src="pic/Home.png" alt="Home" style="zoom:50%;" />
+
+3. Post Blog
+
+This module is used for user to write their blog content. The users are required to type the blog title and content, partition and their subpartitions in order to classify. The content input will be finished in a rich editor. The rich editor support many forms of input and file uploading. Users could upload their file or just insert a file link. Our server will receive this file and store it on the server. Users could use the rich editor to create the blog forms they prefer. And all the blogs on the home page will be decoded as the same as they posted on this webpage. users are also allowed to write their code as a supplement material. 
+
+<img src="pic/Post.png" alt="Post" style="zoom:50%;" />
+
+Users could also run the code to see the output. Typically, Users are allowed to write the code without environmental configuration. They could also write code on an iPad or a phone. The online compiler support many languages, including C, C++, Python, Rust… The running time and memory used will be shown on the webpage just as an open Jude system. The code will be highlighted due to different language, different language has a different highlighted method, and they will also be used here to improve user coding feeling. 
+
+<img src="pic/Complie.png" alt="Complie" style="zoom:50%;" />
+
+4. Blog page
+
+This module is used for show the content of each blog. When users go into the blog page, they could see the blog’s partition and its subpartition and click the like or follwed button to support this blog. The user are allowed to reply poster on the bottom of this blog, which provie a efficient way to communicate and solve the problem stated in blog.
+
+The users are allowed to delete their own blog, which will trigger the query to delete the blog. The user only have the access to delete their own blog. They can not delte the blog that is not posted by them. 
+
+<img src="pic/blog.png" alt="blog" style="zoom:50%;" />
+
+5. Searching
+
+In this module, user are allowed to search the relevant blogs by typing the keyword. The detailed implementation will be introduced with the graphic result in the data mining part.
 
 ## Data Mining
 
 ### Motivation and target
 
-​	Originally, for the searching function, we simply appy String match method which divide
+​	Originally, for the blog searching function, we simply appy String match method which simply divide the sentence into pieces of words without any special tokenize, and then search every word separately to match all the blogs in our database to dertermin whether they are relvevant. This methods is practical when the question string is small and the database is relatively small at the same time, since the complexity for this design is O(M * N), where M represent the number of words in user's searching sentence, and N represent all of the words in forum database. The performance becomes worse when the database grow, which means more user post their blog on our forum. This search method will search every word in a equal status and do not identify the key word in the search sentence, which makes it search every word in the same procedure repeatly in the database. Each search operation will iterate all of the data blocks that store the information of blog, which  generate a huge IO time and significantly reduce the search efficiency.
+
+​	Due to this limitation, our group decide to create a search engine that could reduce the IO overhead and improve the searching speed. The Searching engine mainly can implement the following functions:
+
+1) Identify the key word in the search sentence and also regonize the patterns in a sentence. The search engine are able to identify the key word and filter stop word to reduce the useless searching procedure. It only use the useful key word to map the corresponding result in database.
+2) Search engine should create and matain a data structure to replace the string match method, which take advantage in insertion but have drawback in searching. The Search engine should find the corresponding record in data block in a short time.
+3) The Search engine should maintain a order algorithm, which should sort all of the blogs that have been classified into relevant. The search engine should compare the similarity between the original searching question with all of records has been found, and finally return those blogs in a sorted way to user interface. 
+
+### Method
+
+​	To design such an engine, we need to tokenize the key word in a sentence and construct a special data structure in order to mantain a short search runtime. So we divide this procedure into 3 parts via below procedure:
+
+1) **Tokenize the key word in a search sentence.** In this procedure, The search engine will use Natual Processin Language method to traninig a model which can identify the stop word to filter. For instance, the search engine is responsible to filter the meaning less word such as "my", "the", "an", as which do not play a role in the searching process. This procedure will aslo count the key word occurance times. The more occurance times in a word, the more weight it will have in the searching process. Based on the weight, the search engine is able to compare the similarity of search questions and the blogs in database. More importantly, The search engine should transfer different tense word into the same. Since the search engine identify the word based on its meaning, the word have different tense should be treated equally. For instance, the word "make" is equal to word "made", and the word "built" should be treated as "build".
+2) **Contruct an inverted index table for seaching.** Originally, the searching method is to match every word with all data content in database, which is inefficient since it need compare each pair of word even if they are not relevant. This method is good for  insertion but not friendly for searching. In our way, the search engine will construct a inverted index table which is a two level index. The first index is table that store the alpha letter from A to Z, which represent the first letter of a word. The search engine will identify the the first letter of the keyword and find the corresponding pointer in first index table which point to the  second index table. In The second index table, it store all the words that have occurred in past blogs that have the same first letter. For example, the first second index table store all the words that have occurred in past blogs, such as "abondon", "abort" and so on. Notice that those words are required to be meaningful, the word like "a", "an" will not be shown in this table, which could speed up the searching process. Hence, in this way, every time when user post a blog, the search engine should spend the extra overhead to spilt and filter the blog content then update both the first index and second index table. Similarly, after user delete its own blog, search engine should update and maintain the index table at the same time. Based on the two index table, the key word will find the corresponding blog containg this word directly instead of scaning through the whole database. In this design, It takes time in insertion and deletion but efficient in searching runtime. Based on the tradeoff, we choose to implement this search engine, below is the demonstrative figure:
+
+<img src="pic/search_process.png" alt="search_process" style="zoom:50%;" />
+
+3. **Compare the similarity between the question and corresponding result in database.** After we retrive the corresponding result in database, we need to sort those blogs based on the similarity. The search engine is responsible to design a algorithm that could sort those blogs in an order. In our design, we reference the TF-IDF method, which construct the words into vectors and use projection to compare the similarity. Our search engine will create a word vector for the searching question and those corresponding blog, and do the projection pairly to sort those result blog based on projection value. Notice that the vector creation process will consider the word weight. The word that occur in searching sentence for many times should have the high priority than those words occur less. The word occur in title should have the higher priority than those occur in content. The search engine should also take care of it when doing the vector creation and projection. Below is the demonstrative figure:
+
+<img src="pic/sort_blog.png" alt="sort_blog" style="zoom:50%;" />
+
+### Outcome Anaysis
+
+​	Based on the search engine design, the experiment mainly test three parts. The first part is the tokenize of the search engine. It test whether the search engine could transfer the tense, filter the stop words. The second parr is going to test the performance of the searching process, which is to examine its searching speed and use precision-recall method to examine its precision. The third part is to test the similarity sortion, which aim to exmain the sortion algorithm accuracy.
+
+1. **Tokenize Test** 
+
+We use two demonstraive test case here to report the tokenize result. The first case is for the tense identification. The word has the same meaning but with diffrent tense should be treat as the same. It means that when user search the question with one  tense, the word has the same meaning with all of the tense should be retrived. For instance, here we search the word "build", the blog contain either "built" or "build" should be retrived. Below is the demonstrative figure:
+
+<img src="pic/tokenize.png" alt="tokenize" style="zoom:50%;" />
+
+The second test case is for stop words filtration. The word that has no useful meaning should be ignored when searching. The stop words contain "my", "he", "the", "a", and so on. We create a stop words list, so every word in searching should be identify whether it is a stop word when searching. If the word is be classified as the stop word, the search engine should terminate the following retrive part and return "no result found" to User Interface. Here comes the demonstrative figure:
+
+<img src="pic/stop_word.png" alt="stop_word" style="zoom:50%;" />
+
+The third test case is for case insensitive test. The search engine should retrive the word in a case insensitive way, which means the words in upper letter or in lower letter won't change the retrival result. Here comes the example when we search word "file", and the upper case "FILE" will be retrieved at the search runtime. 
+
+<img src="pic/case_insensitive.png" alt="case_insensitive" style="zoom:50%;" />
+
+2. **Searching speed and accuracy evaluation**
+
+Based on the design, we could drive the searching complexity is around O(1) for each word, since each word have the index directly interact with the record block. Hence the whole retrival speed is O(N), where N represent the number of key word in the search sentence, which is significantly less the the original one O(M*N). where M represent the number of words in database, which is a giant number. More importantly, The IO overhead will reduce significantly in seaching runtime, Because the search engine only need to execute one IO operation (read) after find the blog by index. Instead, The original one will execute more IO operations since it need to read all of the blogs located in data record. The performance of the searching speed will be improved dramatically. ==(**remaining a TABLE)**==
+
+For the accuray evaluation, Our searching engine typically will retrive all of the documents that contains the keyword. Assuming that in our database design the blog is relevant if and only if the the document contains the key word in the searching questions. This design is not robust enough since there is a possibility that the documents do not contain any key word but still relevant to the searching question. However, for the data in our database, this assumption is practical enough. In this way, since all the blog containing the key word will be retrived, the search engine could achive a high recall rate (the documents retrieved that are relevant in database/ allthe documents that retrieved). However, this method sacrafice the precision rate. There is a limitation for our design which is the searching engine only support OR operations for the key word searching.  Basically, each key word will be connected in an OR logical operations. The search engine does not support AND or XOR operations to narrow down the search filed. Hence, the precision rate will shrink in this design.
+
+To cover the problem stated above, we design another filter to narrow down searching filed hence improve the searching precision. User are allowed to chose the partition and subpartition that they wan to narrow down. Based on this filter, only the blogs that exactly in this partition will be retrived. Hence search engine are able to narrow down the searching scope in order to increase the precision rate. Below is the demonstrative figure:
+
+<img src="pic/filter.png" alt="filter" style="zoom:50%;" />
+
+3. **Similarity Sortion Algorithm**
+
+As we stated above, the search engine use OR logical operations in each key word retrival. Hence we need to similarity algorithm to sort those results. In the test case, The first searching word is "tree", then the engine will retrive all the blogs that contians the word "tree".  The most relevant one is the blog that contains most number of "tree".
+
+<img src="pic/tree.png" alt="tree" style="zoom:30%;" />
+
+The second test case is "B tree", which will retrive all blogs contain "B" or "tree". But the most relevant one is the blog contains both "B" and "tree", which shows the high similarity. 
+
+<img src="pic/Btree.png" alt="Btree" style="zoom:30%;" />
+
+The third test case is "B tree database", which will retrieve the blogs contain either of three words.  But the most relevant one is the one which contains all of the three words, as the figure shown, the order of blog is changed.
+
+<img src="pic/btreedb.png" alt="btreedb" style="zoom:30%;" />
 
 ## Application
 
